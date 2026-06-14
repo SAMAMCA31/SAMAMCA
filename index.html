@@ -7,1319 +7,732 @@
 <style>
 :root {
   --bg: #0a0e1a;
-  --bg2: #0f1629;
+  --card-bg: rgba(255,255,255,0.05);
   --green: #00ff88;
   --purple: #8b5cf6;
-  --red: #ff4466;
-  --yellow: #ffd700;
+  --red: #ff4444;
   --text: #e0e0e0;
-  --text2: #a0a0b0;
-  --glass: rgba(255,255,255,0.05);
-  --glass-border: rgba(0,255,136,0.2);
+  --text-dim: #888;
+  --border: rgba(0,255,136,0.3);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-.glass {
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-}
-
-/* TICKER */
-#tickerBar {
-  background: rgba(0,255,136,0.08);
-  border-bottom: 1px solid rgba(0,255,136,0.4);
-  padding: 8px 0;
-  overflow: hidden;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.ticker-inner {
-  display: flex;
-  gap: 60px;
-  white-space: nowrap;
-  animation: tickerScroll 20s linear infinite;
-  width: max-content;
-}
-@keyframes tickerScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.ticker-item { color: var(--green); font-size: 0.85rem; font-weight: 600; }
-.ticker-item span { color: var(--text2); margin-right: 4px; }
-
-/* START SCREEN */
-#startScreen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-.start-card {
-  max-width: 480px;
-  width: 100%;
-  padding: 40px;
-  text-align: center;
-  box-shadow: 0 0 40px rgba(0,255,136,0.15), 0 0 80px rgba(139,92,246,0.1);
-}
-.start-card h1 {
-  font-size: 2.2rem;
-  background: linear-gradient(135deg, var(--green), var(--purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 8px;
-}
-.start-card p { color: var(--text2); margin-bottom: 30px; }
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; }
+.ticker-bar { background: rgba(0,255,136,0.1); border-bottom: 1px solid var(--border); padding: 8px 0; overflow: hidden; white-space: nowrap; }
+.ticker-inner { display: inline-flex; animation: ticker-scroll 24s linear infinite; }
+@keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ticker-item { display: inline-block; padding: 0 40px; color: var(--green); font-size: 13px; font-weight: 600; flex-shrink: 0; }
+.glass { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 12px; }
+.glass-purple { background: rgba(139,92,246,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(139,92,246,0.4); border-radius: 12px; }
+#startScreen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+.start-card { max-width: 480px; width: 100%; padding: 40px; text-align: center; box-shadow: 0 0 40px rgba(0,255,136,0.15), 0 0 80px rgba(139,92,246,0.1); }
+.start-card h1 { font-size: 2.2rem; background: linear-gradient(135deg, var(--green), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+.start-card p { color: var(--text-dim); margin-bottom: 30px; font-size: 15px; }
 .form-group { margin-bottom: 18px; text-align: left; }
-.form-group label { display: block; color: var(--green); font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
-.form-group input {
-  width: 100%;
-  background: rgba(0,255,136,0.05);
-  border: 1px solid rgba(0,255,136,0.3);
-  border-radius: 8px;
-  padding: 12px 16px;
-  color: var(--text);
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.form-group input:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 12px rgba(0,255,136,0.2);
-}
-.btn {
-  padding: 12px 28px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-primary {
-  background: linear-gradient(135deg, var(--green), #00cc66);
-  color: #000;
-  width: 100%;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 20px rgba(0,255,136,0.3);
-}
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(0,255,136,0.45); }
-.btn-secondary {
-  background: rgba(139,92,246,0.15);
-  color: var(--purple);
-  border: 1px solid var(--purple);
-  width: 100%;
-}
-.btn-secondary:hover { background: rgba(139,92,246,0.25); }
-.btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none !important;
-}
-
-/* GAME SCREEN */
+.form-group label { display: block; color: var(--green); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.form-group input { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; color: var(--text); font-size: 16px; outline: none; transition: border-color 0.2s; }
+.form-group input:focus { border-color: var(--green); box-shadow: 0 0 10px rgba(0,255,136,0.2); }
+.btn { display: inline-block; padding: 14px 28px; border-radius: 8px; border: none; cursor: pointer; font-size: 16px; font-weight: 700; transition: all 0.2s; width: 100%; margin-top: 8px; }
+.btn-primary { background: linear-gradient(135deg, var(--green), #00cc66); color: #000; box-shadow: 0 0 20px rgba(0,255,136,0.4); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,255,136,0.6); }
+.btn-secondary { background: rgba(139,92,246,0.2); color: var(--purple); border: 1px solid rgba(139,92,246,0.5); margin-top: 12px; }
+.btn-secondary:hover { background: rgba(139,92,246,0.3); }
+.start-emoji { font-size: 60px; margin-bottom: 16px; display: block; animation: float 3s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 #gameScreen { display: none; }
-.game-header {
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: rgba(0,0,0,0.3);
-  border-bottom: 1px solid rgba(139,92,246,0.2);
-  flex-wrap: wrap;
-}
-.coin-logo {
-  font-size: 2.5rem;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,255,136,0.1);
-  border-radius: 50%;
-  border: 2px solid var(--green);
-  box-shadow: 0 0 16px rgba(0,255,136,0.3);
-  flex-shrink: 0;
-}
-.coin-info h2 { font-size: 1.3rem; color: var(--green); }
-.coin-info p { color: var(--text2); font-size: 0.85rem; }
-.game-content { padding: 20px; max-width: 1200px; margin: 0 auto; }
-
-/* STATS GRID */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.stat-card {
-  padding: 16px;
-  box-shadow: 0 0 16px rgba(0,255,136,0.08);
-}
-.stat-label { font-size: 0.72rem; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.header { display: flex; align-items: center; gap: 16px; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.coin-logo { font-size: 36px; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; background: rgba(0,255,136,0.1); border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; }
+.coin-info h2 { font-size: 1.4rem; color: var(--green); }
+.coin-info span { color: var(--text-dim); font-size: 13px; }
+.header-right { margin-left: auto; text-align: right; }
+.header-right .price-big { font-size: 1.1rem; color: var(--green); font-weight: 700; }
+.header-right .price-label { font-size: 12px; color: var(--text-dim); }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 16px 24px; }
+@media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 420px) { .stats-grid { grid-template-columns: 1fr; } }
+.stat-card { padding: 14px; }
+.stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
 .stat-value { font-size: 1.2rem; font-weight: 700; color: var(--green); }
-.hype-bar-wrap { margin-top: 8px; }
-.hype-bar-bg { background: rgba(255,255,255,0.08); border-radius: 4px; height: 8px; overflow: hidden; }
-.hype-bar-fill {
-  height: 100%;
-  border-radius: 4px;
-  background: linear-gradient(90deg, var(--purple), var(--green));
-  transition: width 0.3s;
-  animation: hypeGlow 1.5s ease-in-out infinite alternate;
-}
-@keyframes hypeGlow {
-  from { box-shadow: 0 0 4px var(--purple); }
-  to { box-shadow: 0 0 12px var(--green); }
-}
-
-/* TABS */
-.tab-nav { display: flex; gap: 8px; margin-bottom: 16px; }
-.tab-btn {
-  padding: 10px 24px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  color: var(--text2);
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: all 0.2s;
-}
-.tab-btn.active {
-  background: rgba(0,255,136,0.12);
-  border-color: var(--green);
-  color: var(--green);
-  box-shadow: 0 0 12px rgba(0,255,136,0.2);
-}
-.tab-panel { display: none; }
+.stat-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.hype-bar-container { margin-top: 6px; background: rgba(255,255,255,0.1); border-radius: 4px; height: 8px; overflow: hidden; }
+.hype-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--purple), var(--green)); transition: width 0.3s; animation: hype-pulse 2s ease-in-out infinite; }
+@keyframes hype-pulse { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.5); } }
+.section-border { border-top: 1px solid rgba(255,255,255,0.07); margin: 0 24px; }
+.tab-row { display: flex; gap: 8px; padding: 0 24px; margin-top: 16px; }
+.tab-btn { padding: 10px 24px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; border-radius: 8px 8px 0 0; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+.tab-btn.active { background: rgba(0,255,136,0.12); color: var(--green); border-color: var(--green); }
+.tab-panel { display: none; padding: 16px 24px; }
 .tab-panel.active { display: block; }
-.upgrades-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 12px;
-}
-.upgrade-card {
-  padding: 16px;
-  box-shadow: 0 0 12px rgba(139,92,246,0.1);
-  border-color: rgba(139,92,246,0.25);
-  transition: all 0.2s;
-}
-.upgrade-card:hover { box-shadow: 0 0 20px rgba(139,92,246,0.25); }
-.upgrade-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
-.upgrade-desc { color: var(--text2); font-size: 0.8rem; margin-bottom: 12px; line-height: 1.4; }
-.upgrade-cost { color: var(--yellow); font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; }
-.upgrade-count { color: var(--purple); font-size: 0.75rem; margin-bottom: 10px; }
-.btn-upgrade {
-  background: linear-gradient(135deg, var(--purple), #6d28d9);
-  color: #fff;
-  width: 100%;
-  padding: 8px;
-  font-size: 0.85rem;
-  border-radius: 6px;
-  box-shadow: 0 2px 12px rgba(139,92,246,0.3);
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-weight: 700;
-}
-.btn-upgrade:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(139,92,246,0.45); }
-.btn-upgrade:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-.btn-upgrade.owned {
-  background: rgba(0,255,136,0.1);
-  color: var(--green);
-  border: 1px solid var(--green);
-  box-shadow: none;
-}
-
-/* SAVE ROW */
-.save-row { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-.btn-save {
-  background: rgba(0,255,136,0.1);
-  color: var(--green);
-  border: 1px solid var(--green);
-}
+.upgrade-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.upgrade-card { padding: 16px; transition: all 0.2s; }
+.upgrade-card:hover { box-shadow: 0 0 20px rgba(139,92,246,0.2); transform: translateY(-2px); }
+.upgrade-name { font-size: 14px; font-weight: 700; color: var(--purple); margin-bottom: 4px; }
+.upgrade-desc { font-size: 12px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.4; }
+.upgrade-cost { font-size: 12px; color: var(--green); margin-bottom: 10px; font-weight: 600; }
+.upgrade-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 700; width: 100%; transition: all 0.2s; }
+.upgrade-btn.can-afford { background: linear-gradient(135deg, var(--purple), #6d28d9); color: #fff; box-shadow: 0 0 10px rgba(139,92,246,0.3); }
+.upgrade-btn.can-afford:hover { box-shadow: 0 0 20px rgba(139,92,246,0.5); transform: translateY(-1px); }
+.upgrade-btn.cannot-afford { background: rgba(255,255,255,0.07); color: var(--text-dim); cursor: not-allowed; }
+.upgrade-btn.done { background: rgba(0,255,136,0.1); color: var(--green); cursor: default; }
+.upgrade-count { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+.action-row { display: flex; gap: 10px; padding: 12px 24px 24px; }
+.btn-save { flex: 1; padding: 12px; background: rgba(0,255,136,0.1); border: 1px solid var(--green); color: var(--green); border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.2s; }
 .btn-save:hover { background: rgba(0,255,136,0.2); }
-.btn-newgame {
-  background: rgba(255,68,102,0.1);
-  color: var(--red);
-  border: 1px solid var(--red);
-}
-.btn-newgame:hover { background: rgba(255,68,102,0.2); }
-
-/* EVENT POPUP */
-#eventPopup {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(10,14,26,0.95);
-  border: 1px solid var(--purple);
-  border-radius: 12px;
-  padding: 16px 24px;
-  min-width: 300px;
-  max-width: 420px;
-  text-align: center;
-  z-index: 1000;
-  box-shadow: 0 0 30px rgba(139,92,246,0.4);
-  display: none;
-}
-.event-emoji { font-size: 2rem; margin-bottom: 8px; }
-.event-title { font-weight: 700; color: var(--green); margin-bottom: 4px; font-size: 1rem; }
-.event-desc { color: var(--text2); font-size: 0.85rem; }
-
-/* WHALE ALERT */
-#whaleAlert {
-  position: fixed;
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, rgba(0,255,136,0.15), rgba(139,92,246,0.15));
-  border: 1px solid var(--green);
-  border-radius: 12px;
-  padding: 14px 28px;
-  text-align: center;
-  z-index: 1001;
-  display: none;
-  box-shadow: 0 0 30px rgba(0,255,136,0.3);
-}
-.whale-text { color: var(--green); font-weight: 700; font-size: 1.1rem; }
-
-/* ACHIEVEMENTS */
-#achievementContainer {
-  position: fixed;
-  top: 90px;
-  right: 20px;
-  z-index: 1002;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  pointer-events: none;
-}
-.achievement-popup {
-  background: rgba(10,14,26,0.97);
-  border: 1px solid var(--yellow);
-  border-radius: 10px;
-  padding: 12px 16px;
-  min-width: 240px;
-  box-shadow: 0 0 20px rgba(255,215,0,0.3);
-  animation: slideInRight 0.4s ease forwards, slideOutRight 0.4s ease 2.6s forwards;
-}
-@keyframes slideInRight {
-  from { transform: translateX(120%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-@keyframes slideOutRight {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(120%); opacity: 0; }
-}
-.ach-label { color: var(--yellow); font-weight: 700; font-size: 0.8rem; }
-.ach-name { color: var(--text); font-size: 0.85rem; margin-top: 3px; font-weight: 600; }
-.ach-desc { color: var(--text2); font-size: 0.75rem; margin-top: 2px; }
-
-/* POPUP ANIMATION */
-@keyframes popIn {
-  from { transform: translateX(-50%) scale(0.8); opacity: 0; }
-  to { transform: translateX(-50%) scale(1); opacity: 1; }
-}
-.pop-animate { animation: popIn 0.3s ease forwards; }
-
-/* VICTORY SCREEN */
-#victoryScreen {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 2000;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 40px;
-}
+.btn-new { flex: 1; padding: 12px; background: rgba(255,68,68,0.1); border: 1px solid var(--red); color: var(--red); border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.2s; }
+.btn-new:hover { background: rgba(255,68,68,0.2); }
+#eventPopup { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: none; max-width: 340px; width: 90%; padding: 16px 20px; border-radius: 12px; background: rgba(10,14,26,0.97); border: 1px solid var(--purple); box-shadow: 0 0 30px rgba(139,92,246,0.4); text-align: center; }
+.event-emoji { font-size: 30px; display: block; margin-bottom: 6px; }
+.event-title { font-size: 14px; font-weight: 700; color: var(--purple); }
+.event-desc { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+#whaleAlert { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 1001; display: none; padding: 12px 24px; background: rgba(0,255,136,0.15); border: 1px solid var(--green); border-radius: 8px; color: var(--green); font-weight: 700; font-size: 14px; box-shadow: 0 0 30px rgba(0,255,136,0.3); animation: whale-flash 0.5s ease-in-out infinite alternate; }
+@keyframes whale-flash { 0% { box-shadow: 0 0 20px rgba(0,255,136,0.3); } 100% { box-shadow: 0 0 40px rgba(0,255,136,0.7); } }
+#achievementContainer { position: fixed; top: 80px; right: 20px; z-index: 999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.achievement-popup { background: rgba(10,14,26,0.97); border: 1px solid var(--green); border-radius: 10px; padding: 12px 18px; min-width: 240px; box-shadow: 0 0 20px rgba(0,255,136,0.3); animation: slide-in-right 0.4s ease-out forwards; }
+@keyframes slide-in-right { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.ach-inner { display: flex; align-items: center; gap: 10px; }
+.ach-emoji { font-size: 24px; }
+.ach-title { font-size: 11px; color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.ach-name { font-size: 15px; font-weight: 700; color: #fff; margin-top: 2px; }
+#victoryScreen { display: none; position: fixed; inset: 0; background: rgba(10,14,26,0.97); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 20px; }
 #victoryScreen.show { display: flex; }
-.victory-title {
-  font-size: 2.8rem;
-  background: linear-gradient(135deg, var(--green), var(--yellow), var(--purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 900;
-  margin-bottom: 16px;
-  animation: victoryPulse 1s ease-in-out infinite alternate;
-}
-@keyframes victoryPulse {
-  from { filter: drop-shadow(0 0 10px var(--green)); }
-  to { filter: drop-shadow(0 0 30px var(--yellow)); }
-}
-.victory-sub { color: var(--text2); font-size: 1.1rem; margin-bottom: 16px; }
-.fireworks-wrap { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.firework {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  animation: fireworkBurst 1.5s ease-out infinite;
-}
-@keyframes fireworkBurst {
-  0% { transform: translate(0,0) scale(1); opacity: 1; }
-  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .upgrades-grid { grid-template-columns: 1fr; }
-  .tab-btn { padding: 8px 14px; font-size: 0.8rem; }
-  .save-row .btn { flex: 1; }
-  .victory-title { font-size: 1.8rem; }
-}
-
-.cash-val { color: var(--yellow) !important; }
-.hype-status-txt { color: var(--text2); font-size: 0.75rem; margin-top: 6px; }
+.victory-emoji { font-size: 80px; animation: victory-bounce 0.8s ease-in-out infinite alternate; }
+@keyframes victory-bounce { 0% { transform: scale(1) rotate(-5deg); } 100% { transform: scale(1.15) rotate(5deg); } }
+.victory-title { font-size: 3rem; background: linear-gradient(135deg, var(--green), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; margin: 20px 0 10px; }
+.victory-sub { color: var(--text-dim); font-size: 18px; margin-bottom: 30px; max-width: 500px; }
+.fireworks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.firework { position: absolute; width: 6px; height: 6px; border-radius: 50%; animation: fw-explode var(--dur) ease-out var(--del) both; }
+@keyframes fw-explode { 0% { transform: translate(0,0) scale(0); opacity: 1; } 70% { opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; } }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 </style>
 </head>
 <body>
 
-<!-- ===== START SCREEN ===== -->
 <div id="startScreen">
-  <div class="glass start-card">
-    <div style="font-size:3.5rem;margin-bottom:12px;">🚀</div>
+  <div class="start-card glass">
+    <span class="start-emoji">🚀</span>
     <h1>Meme Coin Tycoon</h1>
-    <p>Launch your meme coin. Pump it to $1B market cap.<br>Don't get rugged.</p>
+    <p>Launch your own meme coin and reach $1 Billion market cap. To the moon!</p>
     <div class="form-group">
       <label>Coin Name</label>
-      <input type="text" id="coinNameInput" placeholder="e.g. DogeStar" maxlength="20" autocomplete="off">
+      <input type="text" id="coinNameInput" placeholder="e.g. DogeMoon" maxlength="20" />
     </div>
     <div class="form-group">
-      <label>Coin Symbol (2-4 letters)</label>
-      <input type="text" id="coinSymbolInput" placeholder="e.g. DGST" maxlength="4" style="text-transform:uppercase" autocomplete="off">
+      <label>Coin Symbol (3-4 letters)</label>
+      <input type="text" id="coinSymbolInput" placeholder="e.g. DGMN" maxlength="4" />
     </div>
     <button class="btn btn-primary" onclick="startGame()">Launch Your Coin! 🚀</button>
-    <button class="btn btn-secondary" id="continueBtn" style="display:none" onclick="continueGame()">Continue Saved Game 💾</button>
+    <button class="btn btn-secondary" id="continueBtn" onclick="continueGame()" style="display:none">📂 Continue Saved Game</button>
   </div>
 </div>
 
-<!-- ===== GAME SCREEN ===== -->
 <div id="gameScreen">
-  <!-- Ticker Bar -->
-  <div id="tickerBar">
-    <div class="ticker-inner" id="tickerInner">
-      <div class="ticker-item"><span id="tk1sym">COIN</span> $<span id="tk1price">0.00000100</span> 🔥</div>
-      <div class="ticker-item">HOLDERS: <span id="tk1holders">1</span></div>
-      <div class="ticker-item">MARKET CAP: <span id="tk1mcap">$1.0K</span></div>
-      <div class="ticker-item">24H VOL: <span id="tk1vol">$0.00</span></div>
-      <div class="ticker-item"><span id="tk2sym">COIN</span> $<span id="tk2price">0.00000100</span> 🔥</div>
-      <div class="ticker-item">HOLDERS: <span id="tk2holders">1</span></div>
-      <div class="ticker-item">MARKET CAP: <span id="tk2mcap">$1.0K</span></div>
-      <div class="ticker-item">24H VOL: <span id="tk2vol">$0.00</span></div>
+  <div class="ticker-bar">
+    <div class="ticker-inner">
+      <span class="ticker-item" id="tickerA">Loading...</span>
+      <span class="ticker-item" id="tickerB">Loading...</span>
     </div>
   </div>
-
-  <!-- Header -->
-  <div class="game-header">
-    <div class="coin-logo" id="coinLogo">🐕</div>
+  <div class="header">
+    <div class="coin-logo" id="coinLogo">🚀</div>
     <div class="coin-info">
-      <h2 id="coinNameDisplay">MY COIN</h2>
-      <p id="coinSymbolDisplay">$COIN • Meme Coin on the blockchain</p>
+      <h2 id="headerCoinName">CoinName</h2>
+      <span id="headerCoinSymbol">SYMBOL</span>
     </div>
-    <div style="margin-left:auto;text-align:right">
-      <div style="font-size:0.8rem;color:var(--text2)">Goal: <span style="color:var(--green);font-weight:700">$1,000,000,000</span></div>
-      <div id="progressPct" style="color:var(--purple);font-size:0.85rem;font-weight:600">0.0000% there</div>
+    <div class="header-right">
+      <div class="price-big" id="headerPrice">$0.000001</div>
+      <div class="price-label">Current Price</div>
     </div>
   </div>
-
-  <div class="game-content">
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-      <div class="glass stat-card">
-        <div class="stat-label">Market Cap</div>
-        <div class="stat-value" id="statMcap">$1.0K</div>
-      </div>
-      <div class="glass stat-card">
-        <div class="stat-label">Price Per Coin</div>
-        <div class="stat-value" id="statPrice" style="font-size:0.9rem;word-break:break-all">$0.00000100</div>
-      </div>
-      <div class="glass stat-card">
-        <div class="stat-label">Holders</div>
-        <div class="stat-value" id="statHolders">1</div>
-      </div>
-      <div class="glass stat-card">
-        <div class="stat-label">24h Volume</div>
-        <div class="stat-value" id="statVolume">$0.00</div>
-      </div>
-      <div class="glass stat-card" style="grid-column: span 2;">
-        <div class="stat-label">Hype Meter — <span id="hypeNum" style="color:var(--green);font-weight:700">0</span>/100</div>
-        <div class="hype-bar-wrap">
-          <div class="hype-bar-bg">
-            <div class="hype-bar-fill" id="hypeBar" style="width:0%"></div>
-          </div>
-        </div>
-        <div class="hype-status-txt" id="hypeStatus">💤 Dead quiet... buy some hype!</div>
-      </div>
-      <div class="glass stat-card">
-        <div class="stat-label">Cash on Hand</div>
-        <div class="stat-value cash-val" id="statCash">$1,000.00</div>
-      </div>
-      <div class="glass stat-card">
-        <div class="stat-label">Total Fees Earned</div>
-        <div class="stat-value" id="statFees" style="color:var(--purple)">$0.00</div>
+  <div class="stats-grid">
+    <div class="stat-card glass">
+      <div class="stat-label">Market Cap</div>
+      <div class="stat-value" id="statMarketCap">$1.00K</div>
+      <div class="stat-sub">Goal: $1.00B</div>
+    </div>
+    <div class="stat-card glass">
+      <div class="stat-label">Price Per Coin</div>
+      <div class="stat-value" id="statPrice">$0.000001</div>
+      <div class="stat-sub" id="statPriceChange">+0.00%</div>
+    </div>
+    <div class="stat-card glass">
+      <div class="stat-label">Total Holders</div>
+      <div class="stat-value" id="statHolders">1</div>
+      <div class="stat-sub">and growing...</div>
+    </div>
+    <div class="stat-card glass">
+      <div class="stat-label">24h Volume</div>
+      <div class="stat-value" id="statVolume">$0</div>
+      <div class="stat-sub" id="statFees">Fees: $0.00/s</div>
+    </div>
+    <div class="stat-card glass">
+      <div class="stat-label">Hype Meter</div>
+      <div class="stat-value" id="statHype">10.0</div>
+      <div class="hype-bar-container">
+        <div class="hype-bar-fill" id="hypeBarFill" style="width:10%"></div>
       </div>
     </div>
-
-    <!-- Tab Navigation -->
-    <div class="tab-nav">
-      <button class="tab-btn active" id="tabBtnMarketing" onclick="switchTab('marketing')">📣 Marketing</button>
-      <button class="tab-btn" id="tabBtnTech" onclick="switchTab('tech')">⚙️ Technology</button>
+    <div class="stat-card glass">
+      <div class="stat-label">Cash on Hand</div>
+      <div class="stat-value" id="statCash">$1,000.00</div>
+      <div class="stat-sub" id="statCashIncome">+$0.00/s</div>
     </div>
-
-    <!-- Marketing Tab -->
-    <div class="tab-panel active" id="tab-marketing">
-      <div class="upgrades-grid" id="marketingGrid"></div>
-    </div>
-
-    <!-- Tech Tab -->
-    <div class="tab-panel" id="tab-tech">
-      <div class="upgrades-grid" id="techGrid"></div>
-    </div>
-
-    <!-- Action Row -->
-    <div class="save-row">
-      <button class="btn btn-save" onclick="saveGame()">💾 Save Game</button>
-      <button class="btn btn-newgame" onclick="confirmNewGame()">🗑️ New Game</button>
-    </div>
+  </div>
+  <div class="section-border"></div>
+  <div class="tab-row">
+    <button class="tab-btn active" id="tabBtnMarketing" onclick="switchTab('marketing')">📣 Marketing</button>
+    <button class="tab-btn" id="tabBtnTech" onclick="switchTab('tech')">⚙️ Technology</button>
+  </div>
+  <div class="tab-panel active" id="tabMarketing">
+    <div class="upgrade-grid" id="marketingGrid"></div>
+  </div>
+  <div class="tab-panel" id="tabTech">
+    <div class="upgrade-grid" id="techGrid"></div>
+  </div>
+  <div class="action-row">
+    <button class="btn-save" id="saveBtn" onclick="saveGame(false)">💾 Save Game</button>
+    <button class="btn-new" onclick="newGame()">🗑️ New Game</button>
   </div>
 </div>
 
-<!-- ===== VICTORY SCREEN ===== -->
 <div id="victoryScreen">
-  <div class="fireworks-wrap" id="fireworksContainer"></div>
-  <div style="position:relative;z-index:1;max-width:600px">
-    <div style="font-size:4rem;margin-bottom:16px">🎉🚀🌙</div>
-    <div class="victory-title">YOU MADE IT TO $1 BILLION!</div>
-    <div class="victory-sub" id="victorySubtext">Your meme coin conquered the crypto world!</div>
-    <div id="victoryStats" style="color:var(--text2);font-size:0.9rem;margin-bottom:28px;line-height:1.8"></div>
-    <button class="btn btn-primary" style="max-width:220px;margin:0 auto;display:block" onclick="confirmNewGame()">Play Again 🔄</button>
-  </div>
+  <div class="fireworks" id="fireworksContainer"></div>
+  <div class="victory-emoji" id="victoryEmoji">🎉</div>
+  <div class="victory-title">YOU MADE IT!</div>
+  <div class="victory-sub" id="victorySub">Your coin reached $1 Billion Market Cap!</div>
+  <button class="btn btn-primary" style="max-width:280px;position:relative;z-index:1" onclick="newGame()">Play Again 🚀</button>
 </div>
 
-<!-- ===== EVENT POPUP ===== -->
 <div id="eventPopup">
-  <div class="event-emoji" id="eventEmoji">🎉</div>
-  <div class="event-title" id="eventTitle">Event!</div>
-  <div class="event-desc" id="eventDesc">Something happened.</div>
+  <span class="event-emoji" id="eventEmoji">🚨</span>
+  <div class="event-title" id="eventTitle">Event</div>
+  <div class="event-desc" id="eventDesc">Something happened!</div>
 </div>
 
-<!-- ===== WHALE ALERT ===== -->
-<div id="whaleAlert">
-  <div class="whale-text">🐋 WHALE ALERT! 🐋</div>
-  <div style="color:var(--text2);font-size:0.85rem;margin-top:4px" id="whaleDesc">A whale just bought 10% of supply!</div>
-</div>
+<div id="whaleAlert">🐋 WHALE ALERT! Massive buy detected!</div>
 
-<!-- ===== ACHIEVEMENT CONTAINER ===== -->
 <div id="achievementContainer"></div>
 
 <script>
-// ============================================================
-// DATA DEFINITIONS
-// ============================================================
-const EMOJIS = ['🐕','🐸','🚀','🌙','💎','🦊','🐻','🐯','🦁','🐲','⚡','🔥','💰','🎯','🌟','🍕','🎪','🤖','👾','🦄','🍌','🧀','🫏','🐑','🦧'];
-
-const MARKETING_UPGRADES = [
-  {
-    id: 'shitpost',
-    name: 'Shitpost on Twitter',
-    emoji: '🐦',
-    cost: 50,
-    desc: 'Post degen memes. Small hype boost every time.',
-    repeatable: true,
-    effect: { hype: 8 }
-  },
-  {
-    id: 'redditAma',
-    name: 'Reddit AMA',
-    emoji: '👽',
-    cost: 200,
-    desc: 'Answer questions on r/CryptoCurrency. Hype + holder boost.',
-    repeatable: true,
-    effect: { hype: 20, holders: 50 }
-  },
-  {
-    id: 'influencerShill',
-    name: 'Influencer Shill',
-    emoji: '📱',
-    cost: 500,
-    desc: 'Pay a 100K follower account. Big hype spike.',
-    repeatable: true,
-    effect: { hype: 35, marketingMult: 1.2 }
-  },
-  {
-    id: 'memeGen',
-    name: 'Meme Generator',
-    emoji: '😂',
-    cost: 1000,
-    desc: 'Set up a passive meme machine. +0.05 hype per tick.',
-    repeatable: false,
-    effect: { passiveHypeGain: 0.05 }
-  },
-  {
-    id: 'celebrity',
-    name: 'Celebrity Tweet',
-    emoji: '⭐',
-    cost: 5000,
-    desc: 'A B-list celeb tweets about you. Massive hype!',
-    repeatable: true,
-    effect: { hype: 60, marketingMult: 1.5 }
-  },
-  {
-    id: 'superbowl',
-    name: 'Super Bowl Ad',
-    emoji: '🏈',
-    cost: 50000,
-    desc: 'National TV exposure. Permanent 2x holder multiplier.',
-    repeatable: false,
-    effect: { holderMult: 2 }
-  },
-  {
-    id: 'exchangeListing',
-    name: 'Exchange Listing',
-    emoji: '📈',
-    cost: 100000,
-    desc: 'List on a top-10 exchange. +10000 holders & multiplier.',
-    repeatable: false,
-    effect: { holders: 10000, holderMult: 1.5 }
-  },
-  {
-    id: 'coinbaseListing',
-    name: 'Coinbase Listing',
-    emoji: '💙',
-    cost: 500000,
-    desc: 'The holy grail. Permanent 5x holders & 3x volume.',
-    repeatable: false,
-    effect: { holderMult: 5, volumeMult: 3 }
-  }
+var MARKETING_UPGRADES = [
+  { id: 'twitter',    name: 'Shitpost on Twitter', cost: 50,     emoji: '🐦', desc: 'Tweet some degen content. Small hype boost.', repeatable: true },
+  { id: 'reddit',     name: 'Reddit AMA',          cost: 200,    emoji: '👽', desc: 'Do an AMA on r/CryptoMoonShots. Hype + holders.', repeatable: true },
+  { id: 'influencer', name: 'Influencer Shill',    cost: 500,    emoji: '📸', desc: 'Pay a crypto influencer to shill your coin.', repeatable: true },
+  { id: 'memegen',    name: 'Meme Generator',      cost: 1000,   emoji: '🤣', desc: 'Auto-generate memes 24/7. Passive hype gain.', repeatable: true },
+  { id: 'celebrity',  name: 'Celebrity Tweet',     cost: 5000,   emoji: '⭐', desc: 'Pay a celebrity to tweet about your coin.', repeatable: true },
+  { id: 'superbowl',  name: 'Super Bowl Ad',       cost: 50000,  emoji: '🏈', desc: 'Run an ad during the Super Bowl. Permanent holder multiplier!', repeatable: true },
+  { id: 'exchange',   name: 'Exchange Listing',    cost: 100000, emoji: '🏦', desc: 'Get listed on a major exchange. Massive holder boost!', repeatable: true },
+  { id: 'coinbase',   name: 'Coinbase Listing',    cost: 500000, emoji: '💎', desc: 'The holy grail of listings. Enormous permanent boost!', repeatable: true }
 ];
 
-const TECH_UPGRADES = [
-  {
-    id: 'whitepaper',
-    name: 'Whitepaper PDF',
-    emoji: '📄',
-    cost: 100,
-    desc: 'Publish a 50-page PDF. Credibility boost.',
-    effect: { credibilityBoost: 10 }
-  },
-  {
-    id: 'website',
-    name: 'Website Launch',
-    emoji: '🌐',
-    cost: 300,
-    desc: 'A real website. Better holder conversion rate +30%.',
-    effect: { holderMult: 1.3 }
-  },
-  {
-    id: 'audit',
-    name: 'Smart Contract Audit',
-    emoji: '🔒',
-    cost: 1000,
-    desc: 'CertiK certified. Trust multiplier x1.5.',
-    effect: { trustMult: 1.5 }
-  },
-  {
-    id: 'mobileWallet',
-    name: 'Mobile Wallet',
-    emoji: '📲',
-    cost: 3000,
-    desc: 'Easy onboarding for normies. Faster holder growth x1.4.',
-    effect: { holderMult: 1.4 }
-  },
-  {
-    id: 'dexLaunch',
-    name: 'DEX Launch',
-    emoji: '🔄',
-    cost: 10000,
-    desc: 'Launch on Uniswap/PancakeSwap. Trading volume 2x.',
-    effect: { volumeMult: 2 }
-  },
-  {
-    id: 'cexIntegration',
-    name: 'CEX Integration',
-    emoji: '🏦',
-    cost: 50000,
-    desc: 'Integrate with centralized exchange APIs. Volume 3x.',
-    effect: { volumeMult: 3 }
-  },
-  {
-    id: 'layer2Bridge',
-    name: 'Layer 2 Bridge',
-    emoji: '🌉',
-    cost: 200000,
-    desc: 'Cross-chain bridges. Massive volume boost 5x.',
-    effect: { volumeMult: 5 }
-  },
-  {
-    id: 'aiIntegration',
-    name: 'AI Integration',
-    emoji: '🤖',
-    cost: 1000000,
-    desc: 'AI-powered trading bots. Permanent 2x price multiplier.',
-    effect: { priceMult: 2 }
-  }
+var TECH_UPGRADES = [
+  { id: 'whitepaper', name: 'Whitepaper PDF',      cost: 100,     emoji: '📄', desc: 'Write a 40-page whitepaper about nothing.' },
+  { id: 'website',    name: 'Website Launch',       cost: 300,     emoji: '🌐', desc: 'Launch a website with a countdown timer. Holder conversion up.' },
+  { id: 'audit',      name: 'Smart Contract Audit', cost: 1000,    emoji: '🔍', desc: 'Get audited. Trust goes up, rugs go down.' },
+  { id: 'wallet',     name: 'Mobile Wallet',        cost: 3000,    emoji: '📱', desc: 'Build a mobile wallet. Holder growth increases.' },
+  { id: 'dex',        name: 'DEX Launch',           cost: 10000,   emoji: '🔁', desc: 'Launch your own DEX. Trading volume increases.' },
+  { id: 'cex',        name: 'CEX Integration',      cost: 50000,   emoji: '🏛️', desc: 'Integrate with centralized exchanges. Big volume boost.' },
+  { id: 'layer2',     name: 'Layer 2 Bridge',       cost: 200000,  emoji: '⛓️', desc: 'Deploy on L2 for cheap fees. Massive volume + holder boost.' },
+  { id: 'ai',         name: 'AI Integration',       cost: 1000000, emoji: '🤖', desc: 'Add "AI-powered" to your whitepaper. Permanent price multiplier!' }
 ];
 
-const ACHIEVEMENTS_DEF = [
-  { id: 'firstHolder',  name: "It's Alive!",     desc: 'First holder joins',             check: g => g.holders > 1 },
-  { id: 'viral',        name: 'Going Viral',      desc: 'Reach 1,000 holders',            check: g => g.holders >= 1000 },
-  { id: 'moonMission',  name: 'Moon Mission',     desc: 'Reach $1M market cap',           check: g => g.marketCap >= 1e6 },
-  { id: 'lambo',        name: 'Lambo Time',       desc: 'Reach $10M market cap',          check: g => g.marketCap >= 1e7 },
-  { id: 'whaleFood',    name: 'Whale Food',       desc: 'Reach $100M market cap',         check: g => g.marketCap >= 1e8 },
-  { id: 'madeit',       name: 'We Made It',       desc: 'Reach $1B market cap',           check: g => g.marketCap >= 1e9 },
-  { id: 'influencerA',  name: 'Influencer',       desc: 'Buy 5 marketing upgrades',       check: g => g.marketingUpgradeCount >= 5 },
-  { id: 'techBro',      name: 'Tech Bro',         desc: 'Buy 5 tech upgrades',            check: g => g.techUpgradeCount >= 5 },
-  { id: 'diamond',      name: 'Diamond Hands',    desc: 'Survive a bear market event',    check: g => g.bearMarketSurvived },
-  { id: 'degen',        name: 'Degen',            desc: 'Spend $10,000 on marketing',     check: g => g.marketingSpent >= 10000 }
+var RANDOM_EVENTS = [
+  { id: 'elon',    name: 'Elon Tweets About You!', emoji: '🐦', desc: 'Elon just tweeted your coin! TO THE MOON!',
+    effect: function(gs) { gs.hype = Math.min(100, gs.hype + 50); } },
+  { id: 'sec',     name: 'SEC Investigation',       emoji: '⚖️', desc: 'The SEC is investigating. FUD spreads everywhere!',
+    effect: function(gs) { gs.price *= 0.5; } },
+  { id: 'binance', name: 'Binance Lists You!',      emoji: '🏦', desc: 'Binance just listed your coin! Holders EXPLODE!',
+    effect: function(gs) { gs.holders = Math.floor(gs.holders * 11); } },
+  { id: 'rugpull', name: 'Rug Pull Rumors',         emoji: '😱', desc: 'Rug pull rumors flood Crypto Twitter. Panic selling!',
+    effect: function(gs) { gs.holders = Math.max(1, Math.floor(gs.holders * 0.7)); } },
+  { id: 'bullrun', name: 'Crypto Bull Run!',        emoji: '🐂', desc: 'Everything is pumping! Ride the green wave!',
+    effect: function(gs) { gs.price *= 3; gs.hype = Math.min(100, gs.hype + 30); } },
+  { id: 'bear',    name: 'Bear Market',             emoji: '🐻', desc: 'Crypto winter hits hard. Everything dumps.',
+    effect: function(gs) { gs.price *= 0.6; gs.bearMarketSurvived = true; } },
+  { id: 'tiktok',  name: 'Viral TikTok!',          emoji: '🎵', desc: 'Your coin went viral on TikTok. Hype incoming!',
+    effect: function(gs) { gs.hype = Math.min(100, gs.hype + 40); } },
+  { id: 'whale',   name: 'Whale Buys 10%!',         emoji: '🐋', desc: 'A massive whale just bought 10% of the supply!',
+    effect: function(gs) { gs.price *= 2; showWhaleAlert(); } },
+  { id: 'hack',    name: 'Exchange Hack',           emoji: '💀', desc: 'The exchange holding your coin was hacked. Trust collapses!',
+    effect: function(gs) { gs.trustMultiplier = Math.max(0.1, gs.trustMultiplier * 0.8); } },
+  { id: 'partner', name: 'Partnership Announced!',  emoji: '🤝', desc: 'A major partnership announced! Credibility soars!',
+    effect: function(gs) { gs.credibilityBoost = Math.min(3.0, gs.credibilityBoost + 0.2); } }
 ];
 
-const RANDOM_EVENTS = [
-  {
-    emoji: '🐦', title: 'Elon Tweets About You!',
-    desc: 'The Dogefather just mentioned your coin. HYPE EXPLODES!',
-    isWhale: false,
-    apply: g => { g.hype = Math.min(100, g.hype + 50); }
-  },
-  {
-    emoji: '🚨', title: 'SEC Investigation!',
-    desc: 'The SEC is sniffing around your project. Price crashes 50%!',
-    isWhale: false,
-    apply: g => { g.price *= 0.5; }
-  },
-  {
-    emoji: '🟡', title: 'Binance Lists You!',
-    desc: 'Binance just listed your coin! Holders multiply by 11!',
-    isWhale: false,
-    apply: g => { g.holders *= 11; }
-  },
-  {
-    emoji: '😱', title: 'Rug Pull Rumors!',
-    desc: 'CT is spreading FUD. Panic sellers dump. Holders -30%!',
-    isWhale: false,
-    apply: g => { g.holders *= 0.7; }
-  },
-  {
-    emoji: '🐂', title: 'Crypto Bull Run!',
-    desc: 'Everything is pumping! Your coin goes 3x and hype surges!',
-    isWhale: false,
-    apply: g => { g.price *= 3; g.hype = Math.min(100, g.hype + 30); }
-  },
-  {
-    emoji: '🐻', title: 'Bear Market Hits!',
-    desc: 'The market turns red. Your coin takes a painful 40% hit.',
-    isWhale: false,
-    apply: g => { g.price *= 0.6; g.bearMarketSurvived = true; }
-  },
-  {
-    emoji: '📱', title: 'Viral TikTok!',
-    desc: 'A TikTok dance trend features your coin. Hype surges!',
-    isWhale: false,
-    apply: g => { g.hype = Math.min(100, g.hype + 40); }
-  },
-  {
-    emoji: '🐋', title: 'Whale Buy Alert!',
-    desc: 'A whale just bought 10% of total supply! Price doubles!',
-    isWhale: true,
-    apply: g => { g.price *= 2; }
-  },
-  {
-    emoji: '💀', title: 'Exchange Hack!',
-    desc: 'An exchange holding your coin got drained. Trust drops.',
-    isWhale: false,
-    apply: g => { g.trustMultiplier *= 0.8; }
-  },
-  {
-    emoji: '🤝', title: 'Major Partnership!',
-    desc: 'A Fortune 500 company announces a partnership! Credibility up!',
-    isWhale: false,
-    apply: g => { g.credibilityBoost += 20; g.trustMultiplier *= 1.1; }
-  }
+var ACHIEVEMENTS = [
+  { id: 'first_holder',   name: "It's Alive!",    emoji: '🧟', check: function(gs) { return gs.holders > 1; } },
+  { id: 'viral',          name: 'Going Viral',     emoji: '🔥', check: function(gs) { return gs.holders >= 1000; } },
+  { id: 'moon',           name: 'Moon Mission',    emoji: '🌙', check: function(gs) { return gs.marketCap >= 1000000; } },
+  { id: 'lambo',          name: 'Lambo Time',      emoji: '🚗', check: function(gs) { return gs.marketCap >= 10000000; } },
+  { id: 'whale_food',     name: 'Whale Food',      emoji: '🐳', check: function(gs) { return gs.marketCap >= 100000000; } },
+  { id: 'we_made_it',     name: 'We Made It',      emoji: '🎉', check: function(gs) { return gs.marketCap >= 1000000000; } },
+  { id: 'influencer_ach', name: 'Influencer',      emoji: '📣', check: function(gs) { return gs.marketingUpgradeCount >= 5; } },
+  { id: 'tech_bro',       name: 'Tech Bro',        emoji: '💻', check: function(gs) { return gs.techUpgradeCount >= 5; } },
+  { id: 'diamond_hands',  name: 'Diamond Hands',   emoji: '💎', check: function(gs) { return gs.bearMarketSurvived; } },
+  { id: 'degen',          name: 'Degen',            emoji: '🤡', check: function(gs) { return gs.marketingSpent >= 10000; } }
 ];
 
-// ============================================================
-// GAME STATE
-// ============================================================
-let gameState = null;
-let gameLoop = null;
-let eventPopupTimer = null;
-let whaleAlertTimer = null;
+var COIN_EMOJIS = ['🚀','🌙','🐶','🐸','💎','⚡','🔥','🌟','💫','🦊','🐱','🦁','🤖','👾','🎮','🍕','🌈','⚽','🎯','🏆'];
 
-function defaultState(coinName, coinSymbol) {
+var gs = null;
+var gameInterval = null;
+var prevPrice = 0;
+var feePerSec = 0;
+var feeAccum = 0;
+var fwInterval = null;
+var evTimer = null;
+var whaleTimer = null;
+
+function defaultState() {
   return {
-    coinName: coinName,
-    coinSymbol: coinSymbol,
-    coinEmoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
-    cash: 1000,
-    price: 0.000001,
-    supply: 1000000000000,
-    holders: 1,
-    hype: 10,
-    marketCap: 0,
-    volume24h: 0,
-    totalFees: 0,
-    marketingMultiplier: 1,
-    holderMultiplier: 1,
-    volumeMultiplier: 1,
-    trustMultiplier: 1,
-    credibilityBoost: 0,
-    passiveHypeGain: 0,
-    priceMultiplier: 1,
-    marketingSpent: 0,
-    marketingUpgradeCount: 0,
-    techUpgradeCount: 0,
-    techUpgrades: {},
-    marketingUpgradeCounts: {},
-    achievements: {},
-    lastEventTime: Date.now(),
-    nextEventDelay: randomEventDelay(),
-    bearMarketSurvived: false,
-    gameWon: false,
-    tickCount: 0
+    coinName: '', coinSymbol: '', coinEmoji: '🚀',
+    cash: 1000, price: 0.000001, supply: 1000000000000,
+    holders: 1, hype: 10, marketCap: 0, volume24h: 0, totalFees: 0,
+    marketingMultiplier: 1.0, holderMultiplier: 1.0, volumeMultiplier: 1.0,
+    trustMultiplier: 1.0, credibilityBoost: 1.0, passiveHypeGain: 0,
+    priceMultiplier: 1.0, marketingSpent: 0, marketingUpgradeCount: 0,
+    techUpgradeCount: 0, techUpgrades: {}, marketingUpgradeCounts: {},
+    achievements: {}, lastEventTime: Date.now(),
+    nextEventDelay: 30000 + Math.random() * 30000,
+    bearMarketSurvived: false, gameWon: false, tickCount: 0
   };
 }
 
-function randomEventDelay() {
-  return 30000 + Math.random() * 30000;
+function pickEmoji(name) {
+  var h = 0;
+  for (var i = 0; i < name.length; i++) h = (h << 5) - h + name.charCodeAt(i);
+  return COIN_EMOJIS[Math.abs(h) % COIN_EMOJIS.length];
 }
 
-// ============================================================
-// FORMATTERS
-// ============================================================
-function formatNumber(n) {
-  if (n >= 1e12) return '$' + (n / 1e12).toFixed(2) + 'T';
-  if (n >= 1e9)  return '$' + (n / 1e9).toFixed(2) + 'B';
-  if (n >= 1e6)  return '$' + (n / 1e6).toFixed(2) + 'M';
-  if (n >= 1e3)  return '$' + (n / 1e3).toFixed(2) + 'K';
+function fmtMoney(n) {
+  if (n >= 1e12) return '$' + (n/1e12).toFixed(2) + 'T';
+  if (n >= 1e9)  return '$' + (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6)  return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3)  return '$' + (n/1e3).toFixed(2) + 'K';
   return '$' + n.toFixed(2);
 }
 
-function formatCost(n) {
-  if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
-  if (n >= 1e3) return '$' + (n / 1e3).toFixed(1) + 'K';
-  return '$' + n.toLocaleString();
+function fmtCash(n) {
+  if (n >= 1e12) return '$' + (n/1e12).toFixed(2) + 'T';
+  if (n >= 1e9)  return '$' + (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6)  return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3)  return '$' + (n/1e3).toFixed(1) + 'K';
+  return '$' + n.toFixed(2);
 }
 
-function formatPrice(n) {
-  if (n >= 100)       return '$' + n.toFixed(2);
-  if (n >= 1)         return '$' + n.toFixed(4);
-  if (n >= 0.01)      return '$' + n.toFixed(6);
-  if (n >= 0.000001)  return '$' + n.toFixed(8);
+function fmtPrice(n) {
+  if (n >= 1000)   return '$' + n.toFixed(2);
+  if (n >= 1)      return '$' + n.toFixed(4);
+  if (n >= 0.01)   return '$' + n.toFixed(6);
+  if (n >= 0.0001) return '$' + n.toFixed(8);
   return '$' + n.toExponential(4);
 }
 
-function formatCash(n) {
-  if (n >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'B';
-  if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
-  if (n >= 1e3) return '$' + (n / 1e3).toFixed(1) + 'K';
-  return '$' + n.toFixed(2);
+function fmtHolders(n) {
+  n = Math.floor(n);
+  if (n >= 1e9) return (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+  return n.toString();
 }
 
-function formatHolders(n) {
-  if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
-  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
-  return Math.floor(n).toLocaleString();
+function fmtCost(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return (n/1e3).toFixed(0) + 'K';
+  return n.toString();
 }
 
-function getHypeStatus(h) {
-  if (h >= 90) return '🔥🔥🔥 ABSOLUTELY SENDING IT TO THE MOON!!!';
-  if (h >= 70) return '🚀 Insane hype! Community is going parabolic!';
-  if (h >= 50) return '📈 Community is pumping hard! Buy buy buy!';
-  if (h >= 30) return '😤 Getting some attention on CT...';
-  if (h >= 10) return '😐 Low key interest. Need more marketing.';
-  return '💤 Dead quiet... nobody cares. Buy some hype!';
-}
+function tick() {
+  if (!gs) return;
+  gs.tickCount++;
 
-// ============================================================
-// GAME INIT
-// ============================================================
-function startGame() {
-  const name = document.getElementById('coinNameInput').value.trim();
-  const sym = document.getElementById('coinSymbolInput').value.trim().toUpperCase();
-  if (!name || name.length < 2) {
-    alert('Please enter a coin name with at least 2 characters!');
-    return;
+  // Price fluctuation +-0.5%
+  gs.price *= (1 + (Math.random() - 0.5) * 0.01);
+  gs.price = Math.max(gs.price, 1e-14);
+
+  // Price multiplier from AI upgrade
+  if (gs.priceMultiplier > 1.0) {
+    gs.price *= (1 + (gs.priceMultiplier - 1) * 0.0002);
   }
-  if (!sym || sym.length < 2) {
-    alert('Please enter a coin symbol with 2-4 letters!');
-    return;
+
+  // Hype decay 0.01/tick
+  gs.hype = Math.max(0, gs.hype - 0.01);
+  if (gs.passiveHypeGain > 0) {
+    gs.hype = Math.min(100, gs.hype + gs.passiveHypeGain);
   }
-  gameState = defaultState(name, sym);
-  launchGame();
+
+  // Hype boosts price
+  if (gs.hype > 40) {
+    gs.price *= (1 + (gs.hype - 40) * 0.00004);
+  }
+
+  // Holder growth
+  var hypeMult = 0.5 + (gs.hype / 100) * 3;
+  var gain = 0.08 * hypeMult * gs.holderMultiplier * gs.trustMultiplier * gs.credibilityBoost;
+  gs.holders = Math.max(1, gs.holders + gain);
+
+  // Volume
+  var avgTrade = gs.price * 800;
+  var actMult = 0.5 + (gs.hype / 100) * 4;
+  gs.volume24h = gs.holders * avgTrade * actMult * gs.volumeMultiplier * gs.marketingMultiplier * 0.12;
+
+  // Fees: 0.1% of daily volume, per tick
+  var feeTick = gs.volume24h * 0.001 / 864000;
+  gs.cash += feeTick;
+  gs.totalFees += feeTick;
+  feeAccum += feeTick;
+
+  gs.marketCap = gs.price * gs.supply;
+
+  // Random events
+  var now = Date.now();
+  if (now - gs.lastEventTime >= gs.nextEventDelay) {
+    triggerRandomEvent();
+    gs.lastEventTime = now;
+    gs.nextEventDelay = 30000 + Math.random() * 30000;
+  }
+
+  checkAchievements();
+
+  if (!gs.gameWon && gs.marketCap >= 1000000000) {
+    gs.gameWon = true;
+    showVictory();
+  }
+
+  if (gs.tickCount % 10 === 0) {
+    feePerSec = feeAccum;
+    feeAccum = 0;
+    updateUI();
+  }
+
+  if (gs.tickCount % 300 === 0) {
+    saveGame(true);
+  }
 }
 
-function continueGame() {
-  const saved = localStorage.getItem('memeCoinTycoon');
-  if (!saved) {
-    alert('No saved game found!');
-    return;
-  }
-  try {
-    gameState = JSON.parse(saved);
-    // Patch any missing fields for backwards compatibility
-    if (gameState.passiveHypeGain === undefined) gameState.passiveHypeGain = 0;
-    if (gameState.priceMultiplier === undefined) gameState.priceMultiplier = 1;
-    if (gameState.credibilityBoost === undefined) gameState.credibilityBoost = 0;
-    if (gameState.bearMarketSurvived === undefined) gameState.bearMarketSurvived = false;
-    if (gameState.techUpgrades === undefined) gameState.techUpgrades = {};
-    if (gameState.marketingUpgradeCounts === undefined) gameState.marketingUpgradeCounts = {};
-    if (gameState.achievements === undefined) gameState.achievements = {};
-    launchGame();
-  } catch (e) {
-    alert('Save file corrupted. Starting fresh!');
-    localStorage.removeItem('memeCoinTycoon');
-  }
+function updateUI() {
+  if (!gs) return;
+  var pct = prevPrice > 0 ? ((gs.price - prevPrice) / prevPrice * 100) : 0;
+  prevPrice = gs.price;
+
+  document.getElementById('statMarketCap').textContent = fmtMoney(gs.marketCap);
+  document.getElementById('statPrice').textContent = fmtPrice(gs.price);
+  document.getElementById('headerPrice').textContent = fmtPrice(gs.price);
+
+  var chEl = document.getElementById('statPriceChange');
+  chEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+  chEl.style.color = pct >= 0 ? 'var(--green)' : 'var(--red)';
+
+  document.getElementById('statHolders').textContent = fmtHolders(gs.holders);
+  document.getElementById('statVolume').textContent = fmtMoney(gs.volume24h);
+  document.getElementById('statFees').textContent = 'Fees: +' + fmtCash(feePerSec) + '/s';
+  document.getElementById('statHype').textContent = gs.hype.toFixed(1);
+  document.getElementById('hypeBarFill').style.width = Math.min(100, gs.hype) + '%';
+  document.getElementById('statCash').textContent = fmtCash(gs.cash);
+  document.getElementById('statCashIncome').textContent = '+' + fmtCash(feePerSec) + '/s';
+
+  var t = gs.coinSymbol + '/USD ' + fmtPrice(gs.price) + ' ' + (pct >= 0 ? '▲' : '▼') + ' ' + Math.abs(pct).toFixed(2) + '% ● Holders: ' + fmtHolders(gs.holders) + ' ● MCap: ' + fmtMoney(gs.marketCap) + ' ● Hype: ' + gs.hype.toFixed(0) + '/100 ● Cash: ' + fmtCash(gs.cash) + '        ';
+  document.getElementById('tickerA').textContent = t;
+  document.getElementById('tickerB').textContent = t;
+
+  refreshButtons();
 }
 
-function launchGame() {
-  document.getElementById('startScreen').style.display = 'none';
-  document.getElementById('gameScreen').style.display = 'block';
-  document.getElementById('coinLogo').textContent = gameState.coinEmoji;
-  document.getElementById('coinNameDisplay').textContent = gameState.coinName;
-  document.getElementById('coinSymbolDisplay').textContent = '$' + gameState.coinSymbol + ' • Meme Coin on the blockchain';
-  buildUpgradeCards();
-  updateUI();
-  if (gameLoop) clearInterval(gameLoop);
-  gameLoop = setInterval(tick, 100);
-  // Auto-save every 30 seconds
-  setInterval(saveGame, 30000);
-}
-
-// ============================================================
-// BUILD UPGRADE CARDS
-// ============================================================
-function buildUpgradeCards() {
-  const mg = document.getElementById('marketingGrid');
-  mg.innerHTML = '';
-  MARKETING_UPGRADES.forEach(u => {
-    const owned = gameState.marketingUpgradeCounts[u.id] || 0;
-    const isMaxed = !u.repeatable && owned > 0;
-    const div = document.createElement('div');
-    div.className = 'glass upgrade-card';
-    div.id = 'mcard-' + u.id;
-    div.innerHTML = `
-      <div class="upgrade-name">${u.emoji} ${u.name}</div>
-      <div class="upgrade-desc">${u.desc}</div>
-      <div class="upgrade-cost" id="mcost-${u.id}">Cost: ${formatCost(u.cost)}</div>
-      ${u.repeatable ? `<div class="upgrade-count" id="mcount-${u.id}">Purchased: ${owned}x</div>` : ''}
-      <button class="btn btn-upgrade ${isMaxed ? 'owned' : ''}" id="mbtn-${u.id}"
-        onclick="buyMarketingUpgrade('${u.id}')"
-        ${isMaxed ? 'disabled' : ''}>
-        ${isMaxed ? '✅ Owned' : 'Buy ' + u.emoji}
-      </button>`;
-    mg.appendChild(div);
-  });
-
-  const tg = document.getElementById('techGrid');
-  tg.innerHTML = '';
-  TECH_UPGRADES.forEach(u => {
-    const owned = !!gameState.techUpgrades[u.id];
-    const div = document.createElement('div');
-    div.className = 'glass upgrade-card';
-    div.id = 'tcard-' + u.id;
-    div.innerHTML = `
-      <div class="upgrade-name">${u.emoji} ${u.name}</div>
-      <div class="upgrade-desc">${u.desc}</div>
-      <div class="upgrade-cost">Cost: ${formatCost(u.cost)}</div>
-      <button class="btn btn-upgrade ${owned ? 'owned' : ''}" id="tbtn-${u.id}"
-        onclick="buyTechUpgrade('${u.id}')"
-        ${owned ? 'disabled' : ''}>
-        ${owned ? '✅ Owned' : 'Buy ' + u.emoji}
-      </button>`;
-    tg.appendChild(div);
-  });
-}
-
-// ============================================================
-// BUY UPGRADES
-// ============================================================
-function buyMarketingUpgrade(id) {
-  const u = MARKETING_UPGRADES.find(x => x.id === id);
-  if (!u) return;
-  const owned = gameState.marketingUpgradeCounts[id] || 0;
-  if (!u.repeatable && owned > 0) return;
-  if (gameState.cash < u.cost) {
-    showEvent('💸', 'Not Enough Cash!', 'You need ' + formatCost(u.cost) + ' but only have ' + formatCash(gameState.cash) + '.');
-    return;
-  }
-  gameState.cash -= u.cost;
-  gameState.marketingSpent += u.cost;
-  gameState.marketingUpgradeCounts[id] = owned + 1;
-  gameState.marketingUpgradeCount++;
-  applyUpgradeEffect(u.effect);
-
-  // Update count display
-  const countEl = document.getElementById('mcount-' + id);
-  if (countEl) countEl.textContent = 'Purchased: ' + (owned + 1) + 'x';
-
-  if (!u.repeatable) {
-    const btn = document.getElementById('mbtn-' + id);
-    if (btn) {
+function refreshButtons() {
+  for (var i = 0; i < MARKETING_UPGRADES.length; i++) {
+    var u = MARKETING_UPGRADES[i];
+    var btn = document.getElementById('mkt-btn-' + u.id);
+    var cntEl = document.getElementById('mkt-cnt-' + u.id);
+    if (!btn) continue;
+    var cnt = gs.marketingUpgradeCounts[u.id] || 0;
+    if (cntEl) cntEl.textContent = cnt > 0 ? 'Purchased: ' + cnt + 'x' : '';
+    if (gs.cash >= u.cost) {
+      btn.className = 'upgrade-btn can-afford';
+      btn.disabled = false;
+    } else {
+      btn.className = 'upgrade-btn cannot-afford';
       btn.disabled = true;
-      btn.className = 'btn btn-upgrade owned';
-      btn.textContent = '✅ Owned';
     }
   }
-  updateUpgradeButtons();
-  checkAchievements();
+  for (var j = 0; j < TECH_UPGRADES.length; j++) {
+    var tu = TECH_UPGRADES[j];
+    var tbtn = document.getElementById('tech-btn-' + tu.id);
+    if (!tbtn) continue;
+    if (gs.techUpgrades[tu.id]) {
+      tbtn.className = 'upgrade-btn done';
+      tbtn.textContent = '✅ Purchased';
+      tbtn.disabled = true;
+    } else if (gs.cash >= tu.cost) {
+      tbtn.className = 'upgrade-btn can-afford';
+      tbtn.disabled = false;
+    } else {
+      tbtn.className = 'upgrade-btn cannot-afford';
+      tbtn.disabled = true;
+    }
+  }
+}
+
+function buyMarketingUpgrade(id) {
+  var u = null;
+  for (var i = 0; i < MARKETING_UPGRADES.length; i++) {
+    if (MARKETING_UPGRADES[i].id === id) { u = MARKETING_UPGRADES[i]; break; }
+  }
+  if (!u || gs.cash < u.cost) return;
+  gs.cash -= u.cost;
+  gs.marketingSpent += u.cost;
+  gs.marketingUpgradeCount++;
+  gs.marketingUpgradeCounts[id] = (gs.marketingUpgradeCounts[id] || 0) + 1;
+  applyMarketingEffect(id);
+  refreshButtons();
+  var btn = document.getElementById('mkt-btn-' + id);
+  if (btn) {
+    btn.textContent = '✨ Bought!';
+    var cost = fmtCost(u.cost);
+    setTimeout(function() { if (btn) btn.textContent = 'Buy Again ($' + cost + ')'; }, 900);
+  }
+}
+
+function applyMarketingEffect(id) {
+  switch (id) {
+    case 'twitter':    gs.hype = Math.min(100, gs.hype + 15); gs.marketingMultiplier += 0.05; break;
+    case 'reddit':     gs.hype = Math.min(100, gs.hype + 25); gs.holders += 50; break;
+    case 'influencer': gs.hype = Math.min(100, gs.hype + 40); gs.holderMultiplier += 0.1; break;
+    case 'memegen':    gs.passiveHypeGain += 0.05; gs.hype = Math.min(100, gs.hype + 10); break;
+    case 'celebrity':  gs.hype = Math.min(100, gs.hype + 60); gs.holderMultiplier += 0.2; break;
+    case 'superbowl':  gs.holderMultiplier += 0.5; gs.hype = Math.min(100, gs.hype + 30); break;
+    case 'exchange':   gs.holders += 5000; gs.holderMultiplier += 0.3; break;
+    case 'coinbase':   gs.holders += 50000; gs.holderMultiplier += 1.0; gs.hype = Math.min(100, gs.hype + 80); break;
+  }
 }
 
 function buyTechUpgrade(id) {
-  const u = TECH_UPGRADES.find(x => x.id === id);
-  if (!u) return;
-  if (gameState.techUpgrades[id]) return;
-  if (gameState.cash < u.cost) {
-    showEvent('💸', 'Not Enough Cash!', 'You need ' + formatCost(u.cost) + ' but only have ' + formatCash(gameState.cash) + '.');
-    return;
+  var u = null;
+  for (var i = 0; i < TECH_UPGRADES.length; i++) {
+    if (TECH_UPGRADES[i].id === id) { u = TECH_UPGRADES[i]; break; }
   }
-  gameState.cash -= u.cost;
-  gameState.techUpgrades[id] = true;
-  gameState.techUpgradeCount++;
-  applyUpgradeEffect(u.effect);
-
-  const btn = document.getElementById('tbtn-' + id);
-  if (btn) {
-    btn.disabled = true;
-    btn.className = 'btn btn-upgrade owned';
-    btn.textContent = '✅ Owned';
-  }
-  updateUpgradeButtons();
-  checkAchievements();
+  if (!u || gs.techUpgrades[id] || gs.cash < u.cost) return;
+  gs.cash -= u.cost;
+  gs.techUpgrades[id] = true;
+  gs.techUpgradeCount++;
+  applyTechEffect(id);
+  refreshButtons();
 }
 
-function applyUpgradeEffect(effect) {
-  const g = gameState;
-  if (effect.hype)            g.hype = Math.min(100, g.hype + effect.hype);
-  if (effect.holders)         g.holders += effect.holders;
-  if (effect.marketingMult)   g.marketingMultiplier *= effect.marketingMult;
-  if (effect.holderMult)      g.holderMultiplier *= effect.holderMult;
-  if (effect.volumeMult)      g.volumeMultiplier *= effect.volumeMult;
-  if (effect.trustMult)       g.trustMultiplier *= effect.trustMult;
-  if (effect.priceMult)       g.priceMultiplier *= effect.priceMult;
-  if (effect.passiveHypeGain) g.passiveHypeGain += effect.passiveHypeGain;
-  if (effect.credibilityBoost) g.credibilityBoost += effect.credibilityBoost;
-}
-
-function updateUpgradeButtons() {
-  const g = gameState;
-  MARKETING_UPGRADES.forEach(u => {
-    const btn = document.getElementById('mbtn-' + u.id);
-    if (!btn) return;
-    const owned = g.marketingUpgradeCounts[u.id] || 0;
-    const isMaxed = !u.repeatable && owned > 0;
-    if (!isMaxed) {
-      btn.disabled = g.cash < u.cost;
-    }
-  });
-  TECH_UPGRADES.forEach(u => {
-    const btn = document.getElementById('tbtn-' + u.id);
-    if (!btn) return;
-    if (!g.techUpgrades[u.id]) {
-      btn.disabled = g.cash < u.cost;
-    }
-  });
-}
-
-// ============================================================
-// GAME TICK
-// ============================================================
-function tick() {
-  const g = gameState;
-  if (!g || g.gameWon) return;
-  g.tickCount++;
-
-  // --- Price fluctuation ±0.5% per tick ---
-  const fluct = 1 + (Math.random() - 0.5) * 0.01;
-  g.price *= fluct;
-
-  // Hype adds upward pressure on price
-  if (g.hype > 30) {
-    g.price *= (1 + (g.hype - 30) * 0.00004);
-  }
-
-  // Price multiplier (from AI Integration etc.) provides drift
-  if (g.priceMultiplier > 1) {
-    g.price *= (1 + (g.priceMultiplier - 1) * 0.0005);
-  }
-
-  // Price floor: never below initial
-  if (g.price < 0.0000001) g.price = 0.0000001;
-
-  // --- Hype decay ---
-  g.hype = g.hype - 0.01 + g.passiveHypeGain;
-  if (g.hype < 0) g.hype = 0;
-  if (g.hype > 100) g.hype = 100;
-
-  // --- Holder growth ---
-  // Base rate: 0.005 holders per tick = 50/second normally
-  const baseRate = 0.005;
-  const hypeMult = 1 + (g.hype / 100) * 4;
-  const holderGrowth = baseRate * hypeMult * g.marketingMultiplier * g.holderMultiplier * g.trustMultiplier;
-  g.holders += holderGrowth;
-  if (g.holders < 1) g.holders = 1;
-
-  // --- Volume & fees ---
-  // avgTradeSize proportional to price * some coins
-  const avgTradeSize = g.price * 50000;
-  const activityMult = 1 + (g.hype / 100) * 8;
-  const tickVolume = g.holders * avgTradeSize * activityMult * g.volumeMultiplier * 0.0005;
-  g.volume24h = tickVolume * 864000; // extrapolate to 24h (100ms ticks)
-
-  // Fee income: 0.1% of tick volume added to cash
-  const feeIncome = tickVolume * 0.001;
-  g.cash += feeIncome;
-  g.totalFees += feeIncome;
-
-  // --- Market cap ---
-  g.marketCap = g.price * g.supply;
-
-  // --- Random events ---
-  const now = Date.now();
-  if (now - g.lastEventTime > g.nextEventDelay) {
-    triggerRandomEvent();
-    g.lastEventTime = now;
-    g.nextEventDelay = randomEventDelay();
-  }
-
-  // --- UI & achievements (every 10 ticks = 1 second) ---
-  if (g.tickCount % 10 === 0) {
-    checkAchievements();
-    updateUI();
-    updateUpgradeButtons();
-  }
-
-  // --- Victory check ---
-  if (g.marketCap >= 1000000000 && !g.gameWon) {
-    g.gameWon = true;
-    setTimeout(showVictory, 500);
+function applyTechEffect(id) {
+  switch (id) {
+    case 'whitepaper': gs.credibilityBoost += 0.2; break;
+    case 'website':    gs.holderMultiplier += 0.1; break;
+    case 'audit':      gs.trustMultiplier += 0.3; break;
+    case 'wallet':     gs.holderMultiplier += 0.2; break;
+    case 'dex':        gs.volumeMultiplier += 0.5; break;
+    case 'cex':        gs.volumeMultiplier += 1.0; break;
+    case 'layer2':     gs.volumeMultiplier += 2.0; gs.holderMultiplier += 0.4; break;
+    case 'ai':         gs.priceMultiplier += 0.5; break;
   }
 }
 
-// ============================================================
-// RANDOM EVENTS
-// ============================================================
 function triggerRandomEvent() {
-  const ev = RANDOM_EVENTS[Math.floor(Math.random() * RANDOM_EVENTS.length)];
-  ev.apply(gameState);
-  if (ev.isWhale) {
-    showWhaleAlert(ev.desc);
-  } else {
-    showEvent(ev.emoji, ev.title, ev.desc);
+  var ev = RANDOM_EVENTS[Math.floor(Math.random() * RANDOM_EVENTS.length)];
+  ev.effect(gs);
+  gs.price = Math.max(gs.price, 1e-14);
+  gs.holders = Math.max(1, gs.holders);
+  if (ev.id !== 'whale') {
+    showEventPopup(ev.emoji, ev.name, ev.desc);
   }
-  checkAchievements();
 }
 
-// ============================================================
-// ACHIEVEMENTS
-// ============================================================
-function checkAchievements() {
-  ACHIEVEMENTS_DEF.forEach(a => {
-    if (!gameState.achievements[a.id] && a.check(gameState)) {
-      gameState.achievements[a.id] = true;
-      showAchievement(a.name, a.desc);
-    }
-  });
-}
-
-// ============================================================
-// UI UPDATE
-// ============================================================
-function updateUI() {
-  const g = gameState;
-  const mcap = formatNumber(g.marketCap);
-  const price = formatPrice(g.price);
-  const holders = formatHolders(g.holders);
-  const vol = formatNumber(g.volume24h);
-  const cash = formatCash(g.cash);
-  const hype = Math.max(0, Math.min(100, Math.floor(g.hype)));
-  const fees = formatNumber(g.totalFees);
-  const progress = Math.min(100, (g.marketCap / 1e9) * 100);
-
-  document.getElementById('statMcap').textContent = mcap;
-  document.getElementById('statPrice').textContent = price;
-  document.getElementById('statHolders').textContent = holders;
-  document.getElementById('statVolume').textContent = vol;
-  document.getElementById('statCash').textContent = cash;
-  document.getElementById('statFees').textContent = fees;
-  document.getElementById('hypeNum').textContent = hype;
-  document.getElementById('hypeBar').style.width = hype + '%';
-  document.getElementById('hypeStatus').textContent = getHypeStatus(hype);
-  document.getElementById('progressPct').textContent = progress.toFixed(4) + '% there';
-
-  // Ticker (duplicated for seamless scroll)
-  ['tk1', 'tk2'].forEach(p => {
-    document.getElementById(p + 'sym').textContent = g.coinSymbol;
-    document.getElementById(p + 'price').textContent = g.price.toFixed(8);
-    document.getElementById(p + 'holders').textContent = holders;
-    document.getElementById(p + 'mcap').textContent = mcap;
-    document.getElementById(p + 'vol').textContent = vol;
-  });
-}
-
-// ============================================================
-// POPUPS
-// ============================================================
-function showEvent(emoji, title, desc) {
-  if (eventPopupTimer) clearTimeout(eventPopupTimer);
+function showEventPopup(emoji, title, desc) {
   document.getElementById('eventEmoji').textContent = emoji;
   document.getElementById('eventTitle').textContent = title;
   document.getElementById('eventDesc').textContent = desc;
-  const popup = document.getElementById('eventPopup');
-  popup.style.display = 'block';
-  popup.style.animation = 'none';
-  void popup.offsetWidth; // reflow
-  popup.style.animation = 'popIn 0.3s ease forwards';
-  eventPopupTimer = setTimeout(() => {
-    popup.style.display = 'none';
-  }, 4000);
+  document.getElementById('eventPopup').style.display = 'block';
+  if (evTimer) clearTimeout(evTimer);
+  evTimer = setTimeout(function() { document.getElementById('eventPopup').style.display = 'none'; }, 4000);
 }
 
-function showWhaleAlert(desc) {
-  if (whaleAlertTimer) clearTimeout(whaleAlertTimer);
-  document.getElementById('whaleDesc').textContent = desc;
-  const alert = document.getElementById('whaleAlert');
-  alert.style.display = 'block';
-  alert.style.animation = 'none';
-  void alert.offsetWidth;
-  alert.style.animation = 'popIn 0.3s ease forwards';
-  whaleAlertTimer = setTimeout(() => {
-    alert.style.display = 'none';
-  }, 4000);
+function showWhaleAlert() {
+  showEventPopup('🐋', 'WHALE ALERT!', 'A massive whale just bought 10% of the supply! Price doubled!');
+  var el = document.getElementById('whaleAlert');
+  el.style.display = 'block';
+  if (whaleTimer) clearTimeout(whaleTimer);
+  whaleTimer = setTimeout(function() { el.style.display = 'none'; }, 3000);
 }
 
-function showAchievement(name, desc) {
-  const container = document.getElementById('achievementContainer');
-  const div = document.createElement('div');
-  div.className = 'achievement-popup';
-  div.innerHTML = `
-    <div class="ach-label">🏆 Achievement Unlocked!</div>
-    <div class="ach-name">${name}</div>
-    <div class="ach-desc">${desc}</div>`;
-  container.appendChild(div);
-  setTimeout(() => {
-    if (div.parentNode) div.parentNode.removeChild(div);
-  }, 3200);
+function checkAchievements() {
+  for (var i = 0; i < ACHIEVEMENTS.length; i++) {
+    var a = ACHIEVEMENTS[i];
+    if (!gs.achievements[a.id] && a.check(gs)) {
+      gs.achievements[a.id] = true;
+      showAchievement(a);
+    }
+  }
 }
 
-// ============================================================
-// TABS
-// ============================================================
+function showAchievement(a) {
+  var container = document.getElementById('achievementContainer');
+  var el = document.createElement('div');
+  el.className = 'achievement-popup';
+  el.innerHTML = '<div class="ach-inner"><span class="ach-emoji">' + a.emoji + '</span><div><div class="ach-title">Achievement Unlocked!</div><div class="ach-name">' + a.name + '</div></div></div>';
+  container.appendChild(el);
+  setTimeout(function() {
+    el.style.transition = 'transform 0.3s, opacity 0.3s';
+    el.style.transform = 'translateX(120%)';
+    el.style.opacity = '0';
+    setTimeout(function() { if (el.parentNode) el.remove(); }, 350);
+  }, 3000);
+}
+
 function switchTab(tab) {
   document.getElementById('tabBtnMarketing').classList.toggle('active', tab === 'marketing');
   document.getElementById('tabBtnTech').classList.toggle('active', tab === 'tech');
-  document.getElementById('tab-marketing').classList.toggle('active', tab === 'marketing');
-  document.getElementById('tab-tech').classList.toggle('active', tab === 'tech');
+  document.getElementById('tabMarketing').classList.toggle('active', tab === 'marketing');
+  document.getElementById('tabTech').classList.toggle('active', tab === 'tech');
 }
 
-// ============================================================
-// SAVE / LOAD
-// ============================================================
-function saveGame() {
-  if (!gameState) return;
+function buildCards() {
+  var mGrid = document.getElementById('marketingGrid');
+  mGrid.innerHTML = '';
+  for (var i = 0; i < MARKETING_UPGRADES.length; i++) {
+    var u = MARKETING_UPGRADES[i];
+    var cnt = gs.marketingUpgradeCounts[u.id] || 0;
+    var div = document.createElement('div');
+    div.className = 'upgrade-card glass-purple';
+    div.innerHTML = '<div class="upgrade-name">' + u.emoji + ' ' + u.name + '</div>' +
+      '<div class="upgrade-desc">' + u.desc + '</div>' +
+      '<div class="upgrade-cost">Cost: $' + fmtCost(u.cost) + '</div>' +
+      '<button class="upgrade-btn cannot-afford" id="mkt-btn-' + u.id + '" onclick="buyMarketingUpgrade(\'' + u.id + '\')">Buy ($' + fmtCost(u.cost) + ')</button>' +
+      '<div class="upgrade-count" id="mkt-cnt-' + u.id + '">' + (cnt > 0 ? 'Purchased: ' + cnt + 'x' : '') + '</div>';
+    mGrid.appendChild(div);
+  }
+  var tGrid = document.getElementById('techGrid');
+  tGrid.innerHTML = '';
+  for (var j = 0; j < TECH_UPGRADES.length; j++) {
+    var tu = TECH_UPGRADES[j];
+    var purchased = gs.techUpgrades[tu.id];
+    var tdiv = document.createElement('div');
+    tdiv.className = 'upgrade-card glass-purple';
+    tdiv.innerHTML = '<div class="upgrade-name">' + tu.emoji + ' ' + tu.name + '</div>' +
+      '<div class="upgrade-desc">' + tu.desc + '</div>' +
+      '<div class="upgrade-cost">Cost: $' + fmtCost(tu.cost) + '</div>' +
+      '<button class="upgrade-btn ' + (purchased ? 'done' : 'cannot-afford') + '" id="tech-btn-' + tu.id + '" onclick="buyTechUpgrade(\'' + tu.id + '\')" ' + (purchased ? 'disabled' : '') + '>' + (purchased ? '✅ Purchased' : 'Buy ($' + fmtCost(tu.cost) + ')') + '</button>';
+    tGrid.appendChild(tdiv);
+  }
+}
+
+function initScreen() {
+  document.getElementById('coinLogo').textContent = gs.coinEmoji;
+  document.getElementById('headerCoinName').textContent = gs.coinName;
+  document.getElementById('headerCoinSymbol').textContent = gs.coinSymbol + ' · 1T Supply';
+  prevPrice = gs.price;
+  buildCards();
+  updateUI();
+}
+
+function startGame() {
+  var name = document.getElementById('coinNameInput').value.trim();
+  var sym = document.getElementById('coinSymbolInput').value.trim().toUpperCase();
+  if (!name || name.length < 2) { alert('Please enter a coin name (at least 2 characters).'); return; }
+  if (!sym || sym.length < 3 || sym.length > 4) { alert('Symbol must be 3-4 letters.'); return; }
+  gs = defaultState();
+  gs.coinName = name;
+  gs.coinSymbol = sym;
+  gs.coinEmoji = pickEmoji(name);
+  gs.lastEventTime = Date.now();
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('gameScreen').style.display = 'block';
+  initScreen();
+  if (gameInterval) clearInterval(gameInterval);
+  gameInterval = setInterval(tick, 100);
+}
+
+function continueGame() {
+  var raw = localStorage.getItem('memeCoinTycoon_v1');
+  if (!raw) { alert('No saved game found.'); return; }
   try {
-    localStorage.setItem('memeCoinTycoon', JSON.stringify(gameState));
-    const btn = document.querySelector('.btn-save');
+    gs = JSON.parse(raw);
+    gs.lastEventTime = Date.now();
+    document.getElementById('startScreen').style.display = 'none';
+    document.getElementById('gameScreen').style.display = 'block';
+    initScreen();
+    if (gameInterval) clearInterval(gameInterval);
+    gameInterval = setInterval(tick, 100);
+  } catch(e) {
+    alert('Failed to load save.');
+  }
+}
+
+function saveGame(silent) {
+  if (!gs) return;
+  localStorage.setItem('memeCoinTycoon_v1', JSON.stringify(gs));
+  if (!silent) {
+    var btn = document.getElementById('saveBtn');
     if (btn) {
-      const orig = btn.textContent;
       btn.textContent = '✅ Saved!';
-      setTimeout(() => { btn.textContent = orig; }, 1500);
+      setTimeout(function() { btn.textContent = '💾 Save Game'; }, 1500);
     }
-  } catch (e) {
-    console.error('Save failed:', e);
   }
 }
 
-function loadGame() {
-  const saved = localStorage.getItem('memeCoinTycoon');
-  if (saved) {
-    document.getElementById('continueBtn').style.display = 'block';
-  }
-}
-
-function confirmNewGame() {
-  if (!confirm('Start a new game? All current progress will be permanently lost!')) return;
-  localStorage.removeItem('memeCoinTycoon');
-  if (gameLoop) { clearInterval(gameLoop); gameLoop = null; }
-  gameState = null;
+function newGame() {
+  if (!confirm('Start a new game? All progress will be lost!')) return;
+  if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
+  if (fwInterval) { clearInterval(fwInterval); fwInterval = null; }
+  gs = null;
+  localStorage.removeItem('memeCoinTycoon_v1');
+  feePerSec = 0; feeAccum = 0; prevPrice = 0;
   document.getElementById('gameScreen').style.display = 'none';
   document.getElementById('victoryScreen').classList.remove('show');
-  document.getElementById('startScreen').style.display = 'flex';
   document.getElementById('coinNameInput').value = '';
   document.getElementById('coinSymbolInput').value = '';
-  loadGame();
+  document.getElementById('startScreen').style.display = 'flex';
+  checkSave();
 }
 
-// ============================================================
-// VICTORY
-// ============================================================
 function showVictory() {
-  saveGame();
-  const g = gameState;
-  document.getElementById('victorySubtext').textContent =
-    g.coinName + ' ($' + g.coinSymbol + ') conquered the crypto world!';
-  const achCount = Object.keys(g.achievements).length;
-  document.getElementById('victoryStats').innerHTML =
-    '💰 Cash on Hand: ' + formatCash(g.cash) + '<br>' +
-    '👥 Total Holders: ' + formatHolders(g.holders) + '<br>' +
-    '📊 Final Market Cap: ' + formatNumber(g.marketCap) + '<br>' +
-    '💸 Total Fees Earned: ' + formatNumber(g.totalFees) + '<br>' +
-    '🏆 Achievements: ' + achCount + ' / ' + ACHIEVEMENTS_DEF.length;
-  spawnFireworks();
+  document.getElementById('victoryEmoji').textContent = gs.coinEmoji;
+  document.getElementById('victorySub').textContent = gs.coinName + ' (' + gs.coinSymbol + ') reached $1 Billion Market Cap! You are a meme coin legend!';
   document.getElementById('victoryScreen').classList.add('show');
+  spawnBurst();
+  if (fwInterval) clearInterval(fwInterval);
+  fwInterval = setInterval(spawnBurst, 2500);
+  saveGame(true);
 }
 
-function spawnFireworks() {
-  const container = document.getElementById('fireworksContainer');
-  container.innerHTML = '';
-  const colors = ['#00ff88','#8b5cf6','#ffd700','#ff4466','#00ccff','#ff88ff','#ffaa00'];
-  for (let i = 0; i < 80; i++) {
-    const fw = document.createElement('div');
-    fw.className = 'firework';
-    const x = Math.random() * 100;
-    const y = Math.random() * 100;
-    const dx = (Math.random() - 0.5) * 300;
-    const dy = (Math.random() - 0.5) * 300;
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const delay = Math.random() * 2.5;
-    const dur = 1 + Math.random() * 1.5;
-    fw.style.cssText = `left:${x}%;top:${y}%;background:${color};--dx:${dx}px;--dy:${dy}px;animation-delay:${delay}s;animation-duration:${dur}s;width:${4 + Math.random() * 6}px;height:${4 + Math.random() * 6}px;`;
-    container.appendChild(fw);
+function spawnBurst() {
+  var container = document.getElementById('fireworksContainer');
+  var colors = ['#00ff88','#8b5cf6','#ff4444','#ffff00','#00ccff','#ff8800','#ff00ff','#ffffff'];
+  for (var i = 0; i < 60; i++) {
+    (function() {
+      var fw = document.createElement('div');
+      fw.className = 'firework';
+      var cx = 15 + Math.random() * 70;
+      var cy = 15 + Math.random() * 70;
+      var tx = ((Math.random() - 0.5) * 280).toFixed(0) + 'px';
+      var ty = ((Math.random() - 0.5) * 280).toFixed(0) + 'px';
+      var col = colors[Math.floor(Math.random() * colors.length)];
+      var del = (Math.random() * 1.5).toFixed(2) + 's';
+      var dur = (0.8 + Math.random() * 1.2).toFixed(2) + 's';
+      fw.style.left = cx + '%';
+      fw.style.top = cy + '%';
+      fw.style.background = col;
+      fw.style.setProperty('--tx', tx);
+      fw.style.setProperty('--ty', ty);
+      fw.style.setProperty('--del', del);
+      fw.style.setProperty('--dur', dur);
+      fw.style.animationDelay = del;
+      fw.style.animationDuration = dur;
+      container.appendChild(fw);
+      setTimeout(function() { if (fw.parentNode) fw.remove(); }, 3500);
+    })();
   }
 }
 
-// ============================================================
-// INIT
-// ============================================================
-window.addEventListener('load', function() {
-  loadGame();
-  // Allow pressing Enter to start
-  document.getElementById('coinSymbolInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') startGame();
-  });
-  document.getElementById('coinNameInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') document.getElementById('coinSymbolInput').focus();
-  });
-  // Auto-uppercase symbol input
-  document.getElementById('coinSymbolInput').addEventListener('input', function() {
-    this.value = this.value.toUpperCase();
-  });
-});
+function checkSave() {
+  var saved = localStorage.getItem('memeCoinTycoon_v1');
+  document.getElementById('continueBtn').style.display = saved ? 'block' : 'none';
+}
+
+window.addEventListener('load', checkSave);
 </script>
 </body>
 </html>
